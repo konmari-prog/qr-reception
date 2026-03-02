@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>受付スタッフ 操作マニュアル｜プレダイAWARD2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    :root {
+      --blue: #4FC3F7;
+      --blue-dark: #0288D1;
+      --green: #4CAF50;
+      --green-light: #E8F5E9;
+      --orange: #FF9800;
+      --orange-light: #FFF3E0;
+      --gray-100: #F8F9FA;
+      --gray-200: #E9ECEF;
+      --gray-400: #ADB5BD;
+      --gray-600: #6C757D;
+      --gray-800: #343A40;
+      --white: #ffffff;
+      --radius: 12px;
+      --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--gray-100);
+      color: var(--gray-800);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    /* ヘッダー */
+    .header {
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 100%);
+      color: white;
+      padding: 32px 24px 28px;
+      text-align: center;
+    }
+    .header .event-name {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      opacity: 0.85;
+      margin-bottom: 8px;
+    }
+    .header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .header .date-badge {
+      display: inline-block;
+      margin-top: 12px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 4px 16px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* メインコンテンツ */
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+
+    /* セクション */
+    .section {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--gray-200);
+      background: var(--gray-100);
+    }
+    .section-number {
+      width: 28px;
+      height: 28px;
+      background: var(--blue-dark);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--gray-800);
+    }
+    .section-body {
+      padding: 20px;
+    }
+
+    /* Step リスト */
+    .steps {
+      list-style: none;
+      counter-reset: step;
+    }
+    .steps li {
+      counter-increment: step;
+      position: relative;
+      padding-left: 36px;
+      margin-bottom: 14px;
+    }
+    .steps li:last-child { margin-bottom: 0; }
+    .steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 2px;
+      width: 24px;
+      height: 24px;
+      background: var(--blue);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* 画像 */
+    .screenshot {
+      display: block;
+      max-width: 280px;
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      margin: 16px auto;
+    }
+    .screenshot-wide {
+      max-width: 100%;
+    }
+    .img-caption {
+      text-align: center;
+      font-size: 12px;
+      color: var(--gray-600);
+      margin-top: 8px;
+      margin-bottom: 4px;
+    }
+
+    /* 2カラム */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+    @media (max-width: 520px) {
+      .two-col { grid-template-columns: 1fr; }
+    }
+
+    /* モックアップ：受付成功 */
+    .mockup {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--gray-200);
+    }
+    .mockup-header-green {
+      background: linear-gradient(135deg, #1B5E20, var(--green));
+      color: white;
+      padding: 16px;
+      text-align: center;
+    }
+    .mockup-header-orange {
+      background: linear-gradient(135deg, #E65100, var(--orange));
+      color: white;
+      padding: 16px;
+      text-align: center;
+    }
+    .mockup-header-green .icon,
+    .mockup-header-orange .icon {
+      font-size: 36px;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .mockup-header-green .status-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      opacity: 0.85;
+    }
+    .mockup-header-green .name,
+    .mockup-header-orange .name {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 4px 0;
+    }
+    .mockup-body {
+      padding: 14px;
+      background: white;
+    }
+    .ticket-card {
+      background: var(--gray-100);
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+    }
+    .seat-label {
+      font-size: 11px;
+      color: var(--gray-600);
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .seat-number {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--blue-dark);
+      line-height: 1.2;
+    }
+    .already-msg {
+      font-size: 13px;
+      color: var(--orange);
+      font-weight: 600;
+      text-align: center;
+      padding: 8px 0;
+    }
+
+    /* 実際の受付結果画面モックアップ */
+    .result-mockup {
+      background: white;
+      border-radius: 16px;
+      padding: 22px 20px 18px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--gray-200);
+    }
+    .result-icon-circle {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+    }
+    .result-icon-circle.success {
+      background: rgba(79, 195, 247, 0.12);
+      border: 1.5px solid rgba(79, 195, 247, 0.3);
+    }
+    .result-icon-circle.warning {
+      background: rgba(255, 152, 0, 0.12);
+      border: 1.5px solid rgba(255, 152, 0, 0.3);
+    }
+    .result-guest-name {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--gray-800);
+      margin-bottom: 3px;
+    }
+    .result-status-text {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .result-status-text.success { color: #4FC3F7; }
+    .result-status-text.warning { color: #FF9800; }
+    .result-sub-text {
+      font-size: 12px;
+      color: var(--gray-600);
+      margin-bottom: 12px;
+    }
+    .result-ticket-card {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+      border-radius: 14px;
+      padding: 14px 16px;
+      color: white;
+      margin-top: 12px;
+    }
+    .result-ticket-label-top {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      opacity: 0.75;
+      margin-bottom: 2px;
+    }
+    .result-ticket-seat-num {
+      font-size: 48px;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+    /* メールモックアップ */
+    .email-mockup {
+      background: white;
+      border-radius: 12px;
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+      max-width: 300px;
+      margin: 0 auto;
+      font-size: 13px;
+    }
+    .email-mockup-header {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+      color: white;
+      text-align: center;
+      padding: 12px 16px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .email-mockup-body {
+      padding: 14px 16px;
+      color: var(--gray-800);
+      line-height: 1.7;
+    }
+    .email-mockup-qr-area {
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      padding: 14px;
+      text-align: center;
+      margin: 10px 0;
+    }
+    .email-mockup-qr-placeholder {
+      width: 100px;
+      height: 100px;
+      background: var(--gray-200);
+      border-radius: 4px;
+      margin: 0 auto 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .email-mockup-code {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--gray-800);
+    }
+    .email-mockup-seat {
+      background: var(--blue);
+      color: white;
+      text-align: center;
+      font-weight: 700;
+      font-size: 18px;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 8px;
+    }
+
+    /* QRコードエリア */
+    .qr-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 20px;
+      background: var(--gray-100);
+      border-radius: var(--radius);
+    }
+    #qrcode canvas, #qrcode img {
+      border-radius: 8px;
+    }
+    .qr-url {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--blue-dark);
+      word-break: break-all;
+      text-align: center;
+    }
+    .qr-hint {
+      font-size: 12px;
+      color: var(--gray-600);
+      text-align: center;
+    }
+
+    /* 注意ボックス */
+    .notice {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      background: var(--orange-light);
+      border-left: 3px solid var(--orange);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 14px;
+      margin-top: 16px;
+      font-size: 14px;
+    }
+    .notice .material-icons {
+      color: var(--orange);
+      font-size: 20px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .tip {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      background: var(--green-light);
+      border-left: 3px solid var(--green);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 14px;
+      margin-top: 16px;
+      font-size: 14px;
+    }
+    .tip .material-icons {
+      color: var(--green);
+      font-size: 20px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* タブ説明 */
+    .tab-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--blue-dark);
+      color: white;
+      border-radius: 20px;
+      padding: 3px 12px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .tab-badge-gray {
+      background: var(--gray-400);
+    }
+
+    /* フッター */
+    .footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      color: var(--gray-600);
+    }
+
+    /* 印刷 */
+    @media print {
+      body { background: white; }
+      .section { box-shadow: none; border: 1px solid var(--gray-200); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="event-name">プレダイ AWARD 2026</div>
+  <h1>受付スタッフ 操作マニュアル</h1>
+  <div class="date-badge">2026年3月3日（火）</div>
+</div>
+
+<div class="container">
+
+  <!-- STEP 1: アプリを開く -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <div class="section-title">受付アプリを開く</div>
+    </div>
+    <div class="section-body">
+      <p style="margin-bottom:16px;">スマホのブラウザ（Safari / Chrome）で下のQRコードを読み取るか、URLを直接入力してください。</p>
+      <div class="qr-area">
+        <div id="qrcode"></div>
+        <div class="qr-url">konmari-prog.github.io/qr-reception/</div>
+        <div class="qr-hint">このQRコードをスマホのカメラで読み取ると開きます</div>
+      </div>
+      <div class="tip" style="margin-top:16px;">
+        <span class="material-icons">bookmark</span>
+        <span>当日スムーズに動くよう、事前にブックマーク登録しておくのがおすすめです。</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: 基本の受付（QRスキャン） -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <div class="section-title">QRスキャンで受付する（基本）</div>
+    </div>
+    <div class="section-body">
+      <div class="two-col">
+        <div>
+          <ol class="steps">
+            <li>アプリを開くと自動でカメラが起動します</li>
+            <li>参加者のスマホに表示された<strong>受付用QRコード</strong>をカメラにかざしてもらいます</li>
+            <li>読み取れると自動で受付処理が完了します</li>
+            <li>緑の画面が出たら<strong>受付成功</strong>です</li>
+          </ol>
+          <div class="notice">
+            <span class="material-icons">info</span>
+            <span><strong>QR Scan</strong> タブが選ばれていることを確認してください</span>
+          </div>
+        </div>
+        <div>
+          <img src="manual-images/app-scanner.png" alt="受付アプリ画面" class="screenshot">
+          <div class="img-caption">受付アプリ画面（カメラ起動中）</div>
+        </div>
+      </div>
+
+      <hr style="margin:20px 0;border:none;border-top:1px solid var(--gray-200);">
+
+      <p style="font-size:14px;color:var(--gray-600);margin-bottom:12px;">参加者が受け取るメール（QRコードの見本）</p>
+      <div class="email-mockup">
+        <div class="email-mockup-header">イベント名</div>
+        <div class="email-mockup-body">
+          <div>参加者名 様</div>
+          <div style="font-size:12px;color:var(--gray-600);margin-bottom:8px;">この度はお申し込みありがとうございます。<br>当日は下記のQRコードを受付でご提示ください。</div>
+          <div class="email-mockup-qr-area">
+            <div class="email-mockup-qr-placeholder">
+              <span class="material-icons" style="font-size:36px;color:var(--gray-400);">qr_code_2</span>
+            </div>
+            <div style="font-size:10px;color:var(--gray-600);margin-bottom:6px;">受付用QRコード</div>
+            <div class="email-mockup-code">XXXXXXXX</div>
+          </div>
+          <div class="email-mockup-seat">座席番号：5</div>
+        </div>
+      </div>
+      <div class="img-caption">参加者のスマホに届くメール例（ダミー）</div>
+    </div>
+  </div>
+
+  <!-- STEP 3: 手動検索 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <div class="section-title">QRが読めない場合：手動で検索して受付</div>
+    </div>
+    <div class="section-body">
+      <div class="two-col">
+        <div>
+          <ol class="steps">
+            <li>画面上部の <span class="tab-badge"><span class="material-icons" style="font-size:14px;">keyboard</span> Manual</span> タブをタップ</li>
+            <li>下部の検索ボックスに<strong>名前</strong>または<strong>受付コード</strong>（メール記載の英数字）を入力</li>
+            <li>候補が表示されたら対象の参加者をタップ</li>
+            <li>確認して受付ボタンを押す</li>
+          </ol>
+          <div class="notice">
+            <span class="material-icons">warning</span>
+            <span>名前は<strong>姓・名どちらでも</strong>検索できます。漢字・ひらがな両対応。</span>
+          </div>
+        </div>
+        <div>
+          <img src="manual-images/app-scanner.png" alt="受付アプリ画面" class="screenshot">
+          <div class="img-caption">Manual タブに切り替えて検索</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: 受付成功 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <div class="section-title">受付完了時の画面</div>
+    </div>
+    <div class="section-body">
+      <p style="margin-bottom:16px;">受付が完了すると、以下の画面が表示されます。上部のアイコンが<strong style="color:#4FC3F7;">青</strong>になり、座席番号が表示されます。</p>
+      <div class="two-col">
+        <div>
+          <div class="result-mockup">
+            <div class="result-icon-circle success">
+              <span class="material-icons" style="font-size:38px;color:#4FC3F7;">check</span>
+            </div>
+            <div class="result-guest-name">参加者名 様</div>
+            <div class="result-status-text success">Check-in Successful</div>
+            <div class="result-ticket-card">
+              <div class="result-ticket-label-top">Seat Assignment</div>
+              <div class="result-ticket-seat-num">5</div>
+            </div>
+          </div>
+          <div class="img-caption">受付成功画面（イメージ）</div>
+        </div>
+        <div>
+          <ol class="steps">
+            <li><strong>名前</strong>と<strong>座席番号</strong>を口頭でお伝えする</li>
+            <li>「〇〇番のお席です」と案内する</li>
+            <li>次の参加者の受付へ</li>
+          </ol>
+          <div class="tip">
+            <span class="material-icons">celebration</span>
+            <span>紙吹雪アニメーションが出たら受付成功のサインです。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 5: 受付済みエラー -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <div class="section-title">「受付済み」と表示された場合</div>
+    </div>
+    <div class="section-body">
+      <p style="margin-bottom:16px;">同じQRコードを2回スキャンすると、アイコンが<strong style="color:#FF9800;">オレンジ</strong>になり「Already Checked In」と表示されます。</p>
+      <div class="two-col">
+        <div>
+          <div class="result-mockup">
+            <div class="result-icon-circle warning">
+              <span class="material-icons" style="font-size:38px;color:#FF9800;">warning</span>
+            </div>
+            <div class="result-guest-name">参加者名 様</div>
+            <div class="result-status-text warning">Already Checked In</div>
+            <div class="result-sub-text">9:30 に受付済み</div>
+            <div class="result-ticket-card">
+              <div class="result-ticket-label-top">Seat Assignment</div>
+              <div class="result-ticket-seat-num">5</div>
+            </div>
+          </div>
+          <div class="img-caption">受付済み画面（イメージ）</div>
+        </div>
+        <div>
+          <ol class="steps">
+            <li>システム上はすでに受付済みの方です</li>
+            <li>座席番号を確認して案内する</li>
+            <li>問題があれば主催者に確認する</li>
+          </ol>
+          <div class="notice">
+            <span class="material-icons">info</span>
+            <span>二重入場ではなく<strong>すでに受付処理済み</strong>であることを意味します。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 6: 受付状況の確認 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">6</div>
+      <div class="section-title">受付状況を確認する（管理パネル）</div>
+    </div>
+    <div class="section-body">
+      <div class="two-col">
+        <div>
+          <ol class="steps">
+            <li>スプレッドシートの <strong>QR受付システム メニュー</strong> から管理パネルを開く</li>
+            <li><strong>状況</strong>タブをタップ</li>
+            <li><strong>更新</strong>ボタンを押すと最新データが表示される</li>
+            <li>総参加者・受付済み・未受付・受付率を確認</li>
+          </ol>
+          <div class="tip">
+            <span class="material-icons">link</span>
+            <span>「受付ページURL」から受付アプリのURLをコピーできます。スタッフへの共有に使えます。</span>
+          </div>
+        </div>
+        <div>
+          <img src="manual-images/management-panel.png" alt="管理パネル" class="screenshot">
+          <div class="img-caption">管理パネル 状況タブ</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<div class="footer">
+  プレダイAWARD2026 受付スタッフ操作マニュアル &nbsp;|&nbsp; 2026.3.3
+</div>
+
+<script>
+  new QRCode(document.getElementById('qrcode'), {
+    text: 'https://konmari-prog.github.io/qr-reception/',
+    width: 180,
+    height: 180,
+    colorDark: '#0288D1',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
+</script>
+</body>
+</html>
