@@ -631,11 +631,11 @@
     }
 
     function gasPost(body) {
-      return fetch(GAS_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(body),
-      }).then(function(r) { return r.json(); });
+      // CORS対策: POSTではなくGETで送信
+      var params = Object.keys(body).map(function(key) {
+        return encodeURIComponent(key) + '=' + encodeURIComponent(body[key]);
+      }).join('&');
+      return fetch(GAS_URL + '?' + params).then(function(r) { return r.json(); });
     }
 
     // ===== 設定読み込み =====
